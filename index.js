@@ -194,14 +194,32 @@ const saveedit = (e) => {
   object.type = tasktype.innerHTML;
   submitbutton.setAttribute("data-bs-toggle", "modal");
   submitbutton.setAttribute("data-bs-target", "#showtask");
-  submitbutton.setAttribute("onclick","opentask()");
+  submitbutton.setAttribute("onclick", "opentask()");
   taskTitle.setAttribute("contenteditable", "false");
   taskdescription.setAttribute("contenteditable", "false");
   tasktype.setAttribute("contenteditable", "false");
   //submitbutton.setAttribute("onclick","")
   submitbutton.innerHTML = "Open Tasks";
   updatelocalstorage();
-  
 
   console.log(targetid);
+};
+const search = (e) => {
+  if (!e) {
+    e = window.event;
+  }
+  while (taskContents.firstChild) {
+    taskContents.removeChild(taskContents.firstChild);
+  }
+  const resultdata = state.tasklist.filter(({title})=>{
+    if(title.toLowerCase().includes(e.target.value.toLowerCase())){
+      return title;
+    }
+  });
+  resultdata.map(
+    (cardData) =>
+      taskContents.insertAdjacentHTML("beforeend", htmlcontent(cardData))
+    // taskContents.insertAdjacentHTML("beforeend", htmlModalContent(cardData))
+  );
+  console.log(resultdata);
 };
